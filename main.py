@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from scipy.fft import fft, ifft, fftfreq
 import numpy as np
 from scipy import signal
         
@@ -16,6 +17,14 @@ def q1_D():
     plt.ylabel('h [n]')
     plt.title(r'Plot of signal $h[n] = (0.5^n)u[n]+(0.75^n)u[n-2]$')
     plt.stem(n, h)
+    plt.show()
+    
+    N = 100
+    T = 1.0 / 1000.0
+    n = fftfreq(N, T)[:N//2]
+    h =  pow(0.5,n)*step(n) + pow(0.75,n)*step(n,2)
+    f = fft(h)
+    plt.plot(n,f)
     plt.show()
     
 def q3_A():
