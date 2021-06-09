@@ -7,24 +7,21 @@ import control
 
 
 def zoh_foh(T_s, func, title, ylabel):
-    T_s_optimal = T_s / 100
-    max_time = 10
-    max_n = int(1e4)
-    n = np.arange(-max_n, max_n + 1)
+    abs_max_time = 10
+    num_of_samples = (2 * abs_max_time) // T_s + 1
 
-    t = n * T_s
-    t_present = np.array([time for time in t if abs(time) <= max_time / 2])
-    x_present = func(t_present)
-    zoh = interp1d(t_present, x_present, kind='previous')
-    foh = interp1d(t_present, x_present)
+    t_sampled = np.linspace(-abs_max_time, abs_max_time, num=num_of_samples)
+    t_cont = np.linspace(-abs_max_time, abs_max_time, num=num_of_samples * 100)
 
-    t_optimal = n * T_s_optimal
-    t_present_optimal = np.array([time for time in t_optimal if abs(time) <= max_time / 2])
-    x_present_optimal = func(t_present_optimal)
+    x_sampled = func(t_sampled)
+    zoh = interp1d(t_sampled, x_sampled, kind='previous')
+    foh = interp1d(t_sampled, x_sampled)
 
-    plt.plot(t_present_optimal, zoh(t_present_optimal), label="ZOH")
-    plt.plot(t_present_optimal, foh(t_present_optimal), label="FOH")
-    plt.plot(t_present_optimal, x_present_optimal, label="Optimal")
+    x_optimal = func(t_cont)
+
+    plt.plot(t_cont, zoh(t_cont), label="ZOH")
+    plt.plot(t_cont, foh(t_cont), label="FOH")
+    plt.plot(t_cont, x_optimal, label="Optimal")
     plt.xlabel("Time [sec]")
     plt.ylabel(ylabel)
     plt.title(title)
@@ -119,10 +116,11 @@ def q3_A():
     plt.show()
 
 
-zoh_foh(1, lambda t: np.sinc(t / 6),
-        "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(1) + " seconds", "$x_1(t)$")
-zoh_foh(1, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t),
-        "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(1) + " seconds", "$x_2(t)$")
+T_s = 1
+zoh_foh(T_s, lambda t: np.sinc(t / 6),
+        "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(T_s) + " seconds", "$x_1(t)$")
+zoh_foh(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t),
+        "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")
 # fft_sampled2()
 # transfer_function_1()
 # poles_zeros()
