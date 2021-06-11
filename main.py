@@ -67,6 +67,32 @@ def Q3_A():
     plt.title(r'Plot of $X_2(j\Omega$)')
     plt.plot(x, y)
     plt.show()
+
+
+def Q3_D_fft_sampled1():
+    n = np.arange(-10000, 10000)
+    omega = np.linspace(-1 * np.pi, 1 * np.pi, num=20000)
+    x1 = np.sinc(n / 6)
+    f1 = fftshift(fft(x1))
+    plt.title('Sampled Spectrum of x1[n]')
+    plt.xlabel('$\omega $')
+    plt.ylabel('$|X_1(e^{j\omega})|$')
+    plt.plot(omega, np.abs(f1))
+    plt.savefig('sincfft.png')
+    plt.show()
+
+
+def Q3_D_fft_sampled2():
+    n = np.arange(-10000, 10000)
+    omega = np.linspace(-1 * np.pi, 1 * np.pi, num=20000)
+    x2 = np.cos(np.pi / 12 * n) + np.sin(np.pi / 6 * n)
+    f2 = fftshift(fft(x2))
+    plt.title('Sampled Spectrum of x2[n]')
+    plt.xlabel('$\omega $')
+    plt.ylabel('$|X_2(e^{j\omega})|$')
+    plt.plot(omega, np.abs(f2))
+    plt.savefig('sincfft2.png')
+    plt.show()
     
 
 def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
@@ -91,39 +117,11 @@ def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
     plt.legend()
     plt.show()
 
+
 def RunQ3_E():
     T_s = 1
-    zoh_foh(T_s, lambda t: np.sinc(t / 6),
+    Q3_E_ZOH_FOH(T_s, lambda t: np.sinc(t / 6),
             "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(T_s) + " seconds", "$x_1(t)$")
-    zoh_foh(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t),
+    Q3_E_ZOH_FOH(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t),
             "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")    
-
-def fft_sampled1():
-    n = np.arange(-10000, 10000)
-    omega = np.linspace(-1 * np.pi, 1 * np.pi, num=20000)
-    x1 = np.sinc(n / 6)
-    f1 = fftshift(fft(x1))
-    plt.title('Sampled Spectrum of x1[n]')
-    plt.xlabel('$\omega $')
-    plt.ylabel('$|X_1(e^{j\omega})|$')
-    plt.plot(omega, np.abs(f1))
-    plt.savefig('sincfft.png')
-    plt.show()
-
-
-def fft_sampled2():
-    n = np.arange(-10000, 10000)
-    omega = np.linspace(-1 * np.pi, 1 * np.pi, num=20000)
-    x2 = np.cos(np.pi / 12 * n) + np.sin(np.pi / 6 * n)
-    f2 = fftshift(fft(x2))
-    plt.title('Sampled Spectrum of x2[n]')
-    plt.xlabel('$\omega $')
-    plt.ylabel('$|X_2(e^{j\omega})|$')
-    plt.plot(omega, np.abs(f2))
-    plt.savefig('sincfft2.png')
-    plt.show()
-
-
-
-
 
