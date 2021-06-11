@@ -6,7 +6,7 @@ from scipy import signal
 import control
 
 
-#Code for Part A
+#~~~~~~~~~~Code for Part A~~~~~~~~~~
 def step(n, n0=0):
     return 1 * (n >= n0)
 
@@ -44,12 +44,32 @@ def Q1_F_poles_zeros():
     plt.savefig('zeros_poles.png')
     plt.show()
     
-    
-    
-    
+
+
+#~~~~~~~~~~Code for Part C~~~~~~~~~~
+def delta(n, n0=0):
+    return 1 * (np.abs(n - n0) <= 0.01)
+
+
+def Q3_A():
+    x = np.linspace(-np.pi, np.pi, 1000)
+    y = 6 * (step(x, -np.pi / 6) - step(x, np.pi / 6))
+    plt.xlabel('$\Omega$')
+    plt.ylabel('$|X_1(j\Omega$)|')
+    plt.title(r'Plot of $X_1(j\Omega$)')
+    plt.plot(x, y)
+    plt.show()
+
+    x = np.linspace(-np.pi, np.pi, 1000)
+    y = np.pi * (delta(x, -np.pi / 12) + delta(x, np.pi / 12) + delta(x, -np.pi / 6) + delta(x, np.pi / 6))
+    plt.xlabel('$\Omega$')
+    plt.ylabel('$|X_2(j\Omega$)|')
+    plt.title(r'Plot of $X_2(j\Omega$)')
+    plt.plot(x, y)
+    plt.show()
     
 
-def zoh_foh(T_s, func, title, ylabel):
+def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
     abs_max_time = 10
     num_of_samples = (2 * abs_max_time) // T_s + 1
 
@@ -71,6 +91,12 @@ def zoh_foh(T_s, func, title, ylabel):
     plt.legend()
     plt.show()
 
+def RunQ3_E():
+    T_s = 1
+    zoh_foh(T_s, lambda t: np.sinc(t / 6),
+            "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(T_s) + " seconds", "$x_1(t)$")
+    zoh_foh(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t),
+            "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")    
 
 def fft_sampled1():
     n = np.arange(-10000, 10000)
@@ -101,41 +127,3 @@ def fft_sampled2():
 
 
 
-
-
-
-def delta(n, n0=0):
-    return 1 * (np.abs(n - n0) <= 0.01)
-
-
-
-
-
-def q3_A():
-    x = np.linspace(-np.pi, np.pi, 1000)
-    y = 6 * (step(x, -np.pi / 6) - step(x, np.pi / 6))
-    plt.xlabel('$\Omega$')
-    plt.ylabel('$|X_1(j\Omega$)|')
-    plt.title(r'Plot of $X_1(j\Omega$)')
-    plt.plot(x, y)
-    plt.show()
-
-    x = np.linspace(-np.pi, np.pi, 1000)
-    y = np.pi * (delta(x, -np.pi / 12) + delta(x, np.pi / 12) + delta(x, -np.pi / 6) + delta(x, np.pi / 6))
-    plt.xlabel('$\Omega$')
-    plt.ylabel('$|X_2(j\Omega$)|')
-    plt.title(r'Plot of $X_2(j\Omega$)')
-    plt.plot(x, y)
-    plt.show()
-
-
-T_s = 1
-zoh_foh(T_s, lambda t: np.sinc(t / 6),
-        "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(T_s) + " seconds", "$x_1(t)$")
-zoh_foh(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t),
-        "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")
-# fft_sampled2()
-transfer_function_1()
-# poles_zeros()
-# q1_D()
-# q3_A()
