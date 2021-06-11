@@ -6,7 +6,7 @@ from scipy import signal
 import control
 
 
-# ~~~~~~~~~~Code for Part A~~~~~~~~~~
+#~~~~~~~~~~Code for Part A~~~~~~~~~~
 def step(n, n0=0):
     return 1 * (n >= n0)
 
@@ -23,24 +23,25 @@ def Q1_D():
 
 def Q1_E_Transfer_Function():
     h = signal.TransferFunction([1, -0.75, 9 / 16, -9 / 32], [1, -5 / 4, 3 / 8, 0])
-    print("Zeros: ", h.zeros)
-    print("Poles: ", h.poles)
+    print("Zeros: ",h.zeros)
+    print("Poles: ",h.poles)
     w, mag, phase = signal.bode(h)
     plt.figure()
     plt.semilogx(w, mag)  # Bode magnitude plot
     plt.figure()
     plt.semilogx(w, phase)  # Bode phase plot
     plt.show()
-
+    
 
 def Q1_F_poles_zeros():
     h2 = control.TransferFunction([1, -0.75, 9 / 16, -9 / 32], [1, -5 / 4, 3 / 8, 0])
     control.pzmap(h2, plot=True)
     plt.savefig('zeros_poles.png')
     plt.show()
+    
 
 
-# ~~~~~~~~~~Code for Part C~~~~~~~~~~
+#~~~~~~~~~~Code for Part C~~~~~~~~~~
 def delta(n, n0=0):
     return 1 * (np.abs(n - n0) <= 0.01)
 
@@ -61,13 +62,13 @@ def Q3_A_From_Our_Calc():
     plt.title(r'Plot of $X_2(j\Omega$)')
     plt.plot(x, y)
     plt.show()
-
+    
 
 def Q3_A_FFT1():
     t_max = 100;
     t = np.arange(-t_max, t_max)
-    omega = np.linspace(-np.pi, np.pi, num=2 * t_max)
-    x1 = np.sinc(t / 6)
+    omega = np.linspace(-np.pi, np.pi, num=2*t_max)
+    x1 = np.sinc(t/6)
     f1 = fftshift(fft(x1))
     plt.xlabel('$\Omega$')
     plt.ylabel('$|X_2(j\Omega$)|')
@@ -75,12 +76,12 @@ def Q3_A_FFT1():
     plt.plot(omega, np.abs(f1))
     plt.savefig('sincfft.png')
     plt.show()
-
+  
 
 def Q3_A_FFT2():
     t_max = 100;
     t = np.arange(-t_max, t_max)
-    omega = np.linspace(-1 * np.pi, 1 * np.pi, num=2 * t_max)
+    omega = np.linspace(-1 * np.pi, 1 * np.pi, num=2*t_max)
     x2 = np.cos(np.pi / 12 * t) + np.sin(np.pi / 6 * t)
     f2 = fftshift(fft(x2))
     plt.xlabel('$\Omega$')
@@ -89,12 +90,12 @@ def Q3_A_FFT2():
     plt.plot(omega, np.abs(f2))
     plt.savefig('sincfft2.png')
     plt.show()
-
-
+    
+    
 def Q3_D_DTFT1():
     n_max = 10000
     n = np.arange(-n_max, n_max)
-    omega = np.linspace(-np.pi, np.pi, num=2 * n_max)
+    omega = np.linspace(-np.pi, np.pi, num=2*n_max)
     x1 = np.sinc(n / 6)
     f1 = fftshift(fft(x1))
     plt.title('Sampled Spectrum of x1[n]')
@@ -108,7 +109,7 @@ def Q3_D_DTFT1():
 def Q3_D_DTFT2():
     n_max = 10000
     n = np.arange(-n_max, n_max)
-    omega = np.linspace(-np.pi, np.pi, num=2 * n_max)
+    omega = np.linspace(-np.pi, np.pi, num=2*n_max)
     x2 = np.cos(np.pi / 12 * n) + np.sin(np.pi / 6 * n)
     f2 = fftshift(fft(x2))
     plt.title('Sampled Spectrum of x2[n]')
@@ -117,7 +118,7 @@ def Q3_D_DTFT2():
     plt.stem(omega, np.abs(f2))
     plt.savefig('sincfft2.png')
     plt.show()
-
+    
 
 def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
     abs_max_time = 20
@@ -131,9 +132,8 @@ def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
     foh = interp1d(t_sampled, x_sampled)
 
     x_optimal = func(t_cont)
-
-    # Plot X1 and ZOH
-    plt.figure()
+    
+    #Plot X1 and ZOH
     plt.plot(t_cont, x_optimal, label="Original")
     plt.plot(t_cont, zoh(t_cont), label="ZOH")
     plt.title(title)
@@ -141,8 +141,7 @@ def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
     plt.ylabel(ylabel)
     plt.legend()
     plt.show()
-
-    plt.figure()
+    
     plt.plot(t_cont, x_optimal, label="Original")
     plt.plot(t_cont, foh(t_cont), label="FOH")
     plt.title(title)
@@ -152,52 +151,14 @@ def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
     plt.show()
 
 
-def ZOH_FOH_SPECT(func, T_s):
-    n_max = 10000
-    n = np.arange(-n_max, n_max)
-    t_sampled = T_s*n
-    t_cont = np.linspace(-n_max*T_s, n_max*T_s, num=len(t_sampled) * 10)
-    omega = np.linspace(-np.pi, np.pi, num=2 * n_max)
-    h_zoh = zoh_filter(t_sampled, T_s)
-    h_perfect = perfect_filter(omega, T_s)
-    x_sampled = func(t_sampled)
-    f_sampled = fftshift(fft(x_sampled))
-    # x_rec_zoh = ifft(f_sampled*h_zoh)
-    # x_rec_perfect = ifft(f_sampled*h_perfect)
-    # plt.plot(t_sampled[9900:10100],x_rec_zoh[9900:10100])
-    # plt.plot(t_sampled[9900:10100], x_rec_perfect[9900:10100])
-    y = np.convolve(x_sampled, h_zoh)
-    t_present = [t for t in range(len(t_sampled)) if abs(t_sampled[t]) <=10]
-    plt.plot(t_sampled[t_present],y[t_present])
-    plt.plot(t_sampled[t_present],x_sampled[t_present])
-    plt.plot(t_sampled[t_present],h_zoh[t_present])
-
-
-
-def perfect_filter(omega, T_s):
-    return T_s * (np.abs(omega) <= np.pi / T_s)
-
-
-def zoh_filter(t, T_s):
-    return 1 * (np.abs(t) <= T_s/2)
-
-# def zoh_filter(omega, T_s):
-#     return T_s * np.sinc((T_s * omega) / (2 * np.pi))
-
-
-def foh_filter(omega, T_s):
-    return T_s * (np.sinc((T_s * omega) / (2 * np.pi))) ** 2
-
-
 def RunQ3_E():
     T_s = 1
     Q3_E_ZOH_FOH(T_s, lambda t: np.sinc(t / 6),
-                 "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(T_s) + " seconds", "$x_1(t)$")
+            "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(T_s) + " seconds", "$x_1(t)$")
     Q3_E_ZOH_FOH(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t),
-                 "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")
+            "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")    
 
 
-# Q3_D_DTFT1()
-# Q3_D_DTFT2()
-# RunQ3_E()
-ZOH_FOH_SPECT(lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t), 0.1)
+#Q3_D_DTFT1()
+#Q3_D_DTFT2()
+RunQ3_E()
