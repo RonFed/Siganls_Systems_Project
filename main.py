@@ -103,16 +103,17 @@ def Q3_E_ZOH_FOH(T_s, func, func_name, title, ylabel):
 
     t_sampled = np.linspace(-abs_max_time, abs_max_time, num=num_of_samples)
     t_cont = np.linspace(-abs_max_time, abs_max_time, num=num_of_samples * 100)
-
+    
+    x_original = func(t_cont)
+    
     x_sampled = func(t_sampled)
     zoh = interp1d(t_sampled, x_sampled, kind='previous')
     foh = interp1d(t_sampled, x_sampled)
-
-    x_optimal = func(t_cont)
+    ideal = np.convolve(x_sampled, np.sinc(t_sampled/T_s),'same')
     
     #Plot ZOH
     plt.figure()
-    plt.plot(t_cont, x_optimal, label="Original")
+    plt.plot(t_cont, x_original, label="Original")
     plt.plot(t_cont, zoh(t_cont), label="ZOH")
     plt.title(title)
     plt.xlabel("Time [sec]")
@@ -123,7 +124,7 @@ def Q3_E_ZOH_FOH(T_s, func, func_name, title, ylabel):
     
     #Plot FOH
     plt.figure()
-    plt.plot(t_cont, x_optimal, label="Original")
+    plt.plot(t_cont, x_original, label="Original")
     plt.plot(t_cont, foh(t_cont), label="FOH")
     plt.title(title)
     plt.xlabel("Time [sec]")
@@ -134,14 +135,15 @@ def Q3_E_ZOH_FOH(T_s, func, func_name, title, ylabel):
     
     #Plot Ideal
     plt.figure()
-    plt.plot(t_cont, x_optimal, label="Original")
-    plt.plot(t_cont, foh(t_cont), label="FOH")
+    plt.plot(t_cont, x_original, label="Original")
+    plt.plot(t_sampled, ideal, label="Ideal")
     plt.title(title)
     plt.xlabel("Time [sec]")
     plt.ylabel(ylabel)
     plt.legend()
+    plt.savefig('Q3E_'+func_name+'_Ideal_'+str(T_s)+'.png')
     plt.show()
-    
+
 
 
 #~~~~~~~~~~Run codes~~~~~~~~~~
@@ -151,8 +153,8 @@ def RunQ3_E(T_s=1):
     Q3_E_ZOH_FOH(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t), 'X2',
             "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")    
 
-RunQ3_E(9)
 
+RunQ3_E(1)
 #~~~~~~~~~~Not in use~~~~~~~~~~
 def delta(n, n0=0):
     return 1 * (np.abs(n - n0) <= 0.01)
