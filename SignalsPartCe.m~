@@ -11,13 +11,12 @@ x1 = [-t_max:T_s:t_max ; sinc(t_sampled/6)]';
 y_zoh = pulstran(t_cont,x1,@rectpuls,T_s);
 y_foh = pulstran(t_cont,x1,@tripuls,2*T_s);
 fnx = @(t) sinc(t/T_s);
-y_ideal = pulstran(t_cont,x1,fnx(t_cont));
+y_ideal = pulstran(t_cont,x1,fnx(t
 
 hold on;
-%plot(t_cont,y_zoh);
-%plot(t_cont,y_foh);
-plot(t_cont,y_ideal,'r');
-%plot(t_cont,sinc(t_cont/6),'k');
+plot(t_cont,y_zoh);
+plot(t_cont,y_foh);
+plot(t_cont,sinc(t_cont/6));
 %%
 zoh_time = zeros(1,length(t_cont));
 for n = 1:length(t_cont)
