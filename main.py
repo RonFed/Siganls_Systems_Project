@@ -133,7 +133,8 @@ def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
 
     x_optimal = func(t_cont)
     
-    #Plot X1 and ZOH
+    #Plot ZOH
+    plt.figure()
     plt.plot(t_cont, x_optimal, label="Original")
     plt.plot(t_cont, zoh(t_cont), label="ZOH")
     plt.title(title)
@@ -142,6 +143,8 @@ def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
     plt.legend()
     plt.show()
     
+    #Plot FOH
+    plt.figure()
     plt.plot(t_cont, x_optimal, label="Original")
     plt.plot(t_cont, foh(t_cont), label="FOH")
     plt.title(title)
