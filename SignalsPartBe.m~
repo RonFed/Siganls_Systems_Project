@@ -4,8 +4,8 @@ clearvars;
 load ('LPF.mat');
 
 %Setup
-n_max = 40;
-T_s = 1;
+n_max = 10;
+T_s = 0.2;
 num_samples = 2*(n_max/T_s)+1;
 
 %Setup x[n]
@@ -16,8 +16,8 @@ x = 2*cos((3*pi/10)*n).*cos((pi/10)*n);
 %y[n]=convolution(x[n],hi[n])
 y2 = conv(x,h2);
 y3 = conv(x,h3);
-y4 = conv(x,h4,'same');
-y6 = conv(x,h6,'same');
+y4 = conv(x,h4);
+y6 = conv(h6,x,'same');
 
 %Plotting
 t_max = 10;
@@ -30,11 +30,11 @@ Taxis = linspace(-t_max,t_max);
 % xlabel('n[sec]');
 
 nexttile
-plot(t_sampled, x);
+plot(length(),x);
 hold on;
-plot(t_sampled, y4);
+plot(t_sampled,y6);
 hold off;
-title('x[n] and y_4[n]');
+title('x[n] and y_3[n]');
 xlabel('n[sec]');
 % xlim(-3:3)
 
