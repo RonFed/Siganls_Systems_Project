@@ -101,7 +101,7 @@ def Q3_D_DTFT1():
     plt.title('Sampled Spectrum of x1[n]')
     plt.xlabel('$\omega[rad/sec] $')
     plt.ylabel('$|X_1(e^{j\omega})|$')
-    plt.stem(omega, np.abs(f1))
+    plt.plot(omega, np.abs(f1))
     plt.savefig('sincfft.png')
     plt.show()
 
@@ -115,7 +115,7 @@ def Q3_D_DTFT2():
     plt.title('Sampled Spectrum of x2[n]')
     plt.xlabel('$\omega[rad/sec] $')
     plt.ylabel('$|X_2(e^{j\omega})|$')
-    plt.stem(omega, np.abs(f2))
+    plt.plot(omega, np.abs(f2))
     plt.savefig('sincfft2.png')
     plt.show()
     
