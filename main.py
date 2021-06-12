@@ -154,7 +154,7 @@ def RunQ3_E(T_s=1):
             "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")    
 
 
-RunQ3_E(1)
+
 #~~~~~~~~~~Not in use~~~~~~~~~~
 def delta(n, n0=0):
     return 1 * (np.abs(n - n0) <= 0.01)
