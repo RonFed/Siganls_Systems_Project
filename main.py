@@ -17,7 +17,7 @@ def Q1_D():
     plt.xlabel('n')
     plt.ylabel('h [n]')
     plt.title(r'Impulse response of $x[n]=(0.5^n)u[n]+(0.75^n)u[n-2]$')
-    plt.plot(n, h)
+    plt.stem(n, h)
     plt.show()
 
 
@@ -162,6 +162,7 @@ def RunQ3_E():
             "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")    
 
 
+Q1_D()
 #Q3_D_DTFT1()
 #Q3_D_DTFT2()
-RunQ3_E()
+#RunQ3_E()
