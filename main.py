@@ -92,12 +92,14 @@ def Q3_A_FFT2():
     plt.show()
     
     
-def Q3_D_DTFT1():
+def Q3_D_DTFT(T_s):
     n_max = 10000
     n = np.arange(-n_max, n_max)
+    t_sampled = n * T_s
     omega = np.linspace(-np.pi, np.pi, num=2*n_max)
-    x1 = np.sinc(n / 6)
+    x1 = np.sinc(t_sampled / 6)
     f1 = fftshift(fft(x1))
+    plt.figure()
     plt.title('Sampled Spectrum of x1[n]')
     plt.xlabel('$\omega[rad/sec] $')
     plt.ylabel('$|X_1(e^{j\omega})|$')
@@ -105,12 +107,8 @@ def Q3_D_DTFT1():
     plt.savefig('sincfft.png')
     plt.show()
 
-
-def Q3_D_DTFT2():
-    n_max = 10000
-    n = np.arange(-n_max, n_max)
-    omega = np.linspace(-np.pi, np.pi, num=2*n_max)
-    x2 = np.cos(np.pi / 12 * n) + np.sin(np.pi / 6 * n)
+    plt.figure()
+    x2 = np.cos(np.pi / 12 * t_sampled) + np.sin(np.pi / 6 * t_sampled)
     f2 = fftshift(fft(x2))
     plt.title('Sampled Spectrum of x2[n]')
     plt.xlabel('$\omega[rad/sec] $')
@@ -118,7 +116,9 @@ def Q3_D_DTFT2():
     plt.plot(omega, np.abs(f2))
     plt.savefig('sincfft2.png')
     plt.show()
-    
+
+
+
 
 def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
     abs_max_time = 20
@@ -155,14 +155,15 @@ def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
 
 
 def RunQ3_E():
-    T_s = 1
+    T_s = 9
     Q3_E_ZOH_FOH(T_s, lambda t: np.sinc(t / 6),
             "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(T_s) + " seconds", "$x_1(t)$")
     Q3_E_ZOH_FOH(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t),
             "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")    
 
 
-Q1_D()
+# Q1_D()
+Q3_D_DTFT(9)
 #Q3_D_DTFT1()
 #Q3_D_DTFT2()
-#RunQ3_E()
+RunQ3_E()
