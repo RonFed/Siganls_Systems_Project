@@ -154,8 +154,7 @@ def Q3_E_ZOH_FOH(T_s, func, title, ylabel):
     plt.show()
 
 
-def RunQ3_E():
-    T_s = 9
+def RunQ3_E(T_s=1):
     Q3_E_ZOH_FOH(T_s, lambda t: np.sinc(t / 6),
             "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(T_s) + " seconds", "$x_1(t)$")
     Q3_E_ZOH_FOH(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t),
@@ -163,7 +162,8 @@ def RunQ3_E():
 
 
 # Q1_D()
-Q3_D_DTFT(9)
+#Q3_D_DTFT(9)
 #Q3_D_DTFT1()
 #Q3_D_DTFT2()
-RunQ3_E()
+#RunQ3_E()
+RunQ3_E(9)
