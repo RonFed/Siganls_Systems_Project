@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from scipy.fft import fft, ifft, fftfreq, fftshift
+from scipy.fft import fft, fftshift
 from scipy.interpolate import interp1d
 import numpy as np
 
@@ -60,7 +60,7 @@ def Q3_D_DTFT(T_s=1):
 
 
 def Q3_E_ZOH_FOH(T_s, func, func_name, title, ylabel):
-    abs_max_time = 20
+    abs_max_time = 40
     num_of_samples = (2 * abs_max_time) // T_s + 1
 
     t_sampled = np.linspace(-abs_max_time, abs_max_time, num=num_of_samples)
@@ -113,3 +113,5 @@ def RunQ3_E(T_s=1):
                  "$x_1(t)=sinc(\\frac{t}{6}),  T_s = $" + str(T_s) + " seconds", "$x_1(t)$")
     Q3_E_ZOH_FOH(T_s, lambda t: np.cos((np.pi / 12) * t) + np.sin((np.pi / 6) * t), 'X2',
                  "$x_2(t)=cos(\\frac{\pi}{12}t) + sin(\\frac{\pi}{6}t),  T_s = $" + str(T_s) + " seconds", "$x_2(t)$")
+
+RunQ3_E(9)
